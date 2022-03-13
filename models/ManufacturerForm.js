@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
+  manufacturerID: {
+    type: mongoose.SchemaTypes.ObjectId,
+    required: true
+  },
   lotId: {
     type: String,
     required: true
@@ -25,4 +29,4 @@ const schema = mongoose.Schema({
 });
 
 const model = mongoose.model("Manufacturer", schema);
-export default model;
+module.exports = model;

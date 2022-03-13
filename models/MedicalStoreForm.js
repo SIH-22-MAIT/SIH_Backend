@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
+  medicalStoreID: {
+    type: mongoose.SchemaTypes.ObjectId,
+    required: true
+  },
   lotId: {
     type: String,
     required: true
@@ -39,4 +43,4 @@ const schema = mongoose.Schema({
 });
 
 const model = mongoose.model("Medical", schema);
-export default model;
+module.exports = model;

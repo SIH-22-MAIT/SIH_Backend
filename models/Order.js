@@ -28,4 +28,4 @@ const schema = mongoose.Schema({
 });
 
 const model = mongoose.model("Order", schema);
-export default model;
+module.exports = model;

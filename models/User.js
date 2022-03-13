@@ -27,14 +27,14 @@ const schema = mongoose.Schema({
     type: String,
     enum: ["manufacturer", "medical", "warehouse"]
   },
-  roleId: {
-    type: mongoose.SchemaTypes.ObjectId,
+  uniqueID: {
+    type: String,
     required: true
   }
 });
 
 // Encrypting password before saving
-userSchema.pre("save", async function (next) {
+schema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   this.confirmPassword = undefined;
@@ -48,4 +48,4 @@ schema.methods.verifyPassword = async function (candidatePassword, password) {
 };
 
 const model = mongoose.model("User", schema);
-export default model;
+module.exports = model;
