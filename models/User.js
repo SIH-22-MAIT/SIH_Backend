@@ -30,6 +30,10 @@ const schema = mongoose.Schema({
   uniqueID: {
     type: String,
     required: true
+  },
+  confirm: {
+    type: Boolean,
+    default: false
   }
 });
 

@@ -5,7 +5,7 @@ const Email = require("../utils/Email");
 // Create email verification link
 function EmailVerfication(id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "1d"
+    expiresIn: "600s"
   });
 }
 
@@ -79,12 +79,12 @@ exports.signup = async (req, res) => {
       role,
       uniqueID
     });
-    // Confirm Emamil Token
-    const emailToken = EmailVerfication(user._id);
+    // Confirm Email Token
+    const emailToken = EmailVerfication(user.id);
     // Confirm Email URL
     const url = `${req.protocol}://${req.get(
       "host"
-    )}/ncbdaas/confirm/email/${emailToken}`;
+    )}/api/confirmEmail/${emailToken}`;
     await new Email(user, url).verifyEmail();
     res.status(201).json({ status: "success", data: { user } });
   } catch (err) {
@@ -127,6 +127,29 @@ exports.login = async (req, res) => {
         token,
         user
       }
+    });
+  } catch (err) {
+    res.status(400).json({ status: "fail", msg: err.message });
+  }
+};
+
+// Confirm email
+exports.confirmEmail = async (req, res) => {
+  const token = req.params.token;
+  try {
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Check is user exists or not
+    const user = await User.findByIdAndUpdate(decoded.id, { confirm: true });
+    if (!user)
+      return res.status(400).json({
+        status: "fail",
+        msg: "User does not exist"
+      });
+
+    res.status(200).json({
+      status: "success",
+      msg: "Email Verified"
     });
   } catch (err) {
     res.status(400).json({ status: "fail", msg: err.message });
