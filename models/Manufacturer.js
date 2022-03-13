@@ -18,11 +18,11 @@ const schema = mongoose.Schema({
     default: Date.now(),
     required: true
   },
-  drugStatus: {
-    type: String,
+  prescription: {
+    type: Boolean,
     required: true
   }
 });
 
-const model = mongoose.model("Manufacture", schema);
+const model = mongoose.model("Manufacturer", schema);
 export default model;
