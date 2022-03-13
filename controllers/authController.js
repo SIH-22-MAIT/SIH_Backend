@@ -1,5 +1,13 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Email = require("../utils/Email");
+
+// Create email verification link
+function EmailVerfication(id) {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "1d"
+  });
+}
 
 // Protect from non-logged user
 exports.protect = async (req, res, next) => {
@@ -55,7 +63,7 @@ exports.getUserFromToken = async (req, res) => {
 
 // Signup
 exports.signup = async (req, res) => {
-  const { email, password, confirmPassword, role, roleId } = req.body;
+  const { email, password, confirmPassword, role, uniqueID } = req.body;
 
   let user = await User.findOne({ email });
   try {
@@ -69,8 +77,15 @@ exports.signup = async (req, res) => {
       password,
       confirmPassword,
       role,
-      roleId
+      uniqueID
     });
+    // Confirm Emamil Token
+    const emailToken = EmailVerfication(user._id);
+    // Confirm Email URL
+    const url = `${req.protocol}://${req.get(
+      "host"
+    )}/ncbdaas/confirm/email/${emailToken}`;
+    await new Email(user, url).verifyEmail();
     res.status(201).json({ status: "success", data: { user } });
   } catch (err) {
     console.log(err.message);
