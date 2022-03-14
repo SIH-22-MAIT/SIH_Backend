@@ -8,11 +8,16 @@ const {
 	dispatch: medicalStoreDispatch
 } = require("../controllers/medicalStoreController");
 
-const authConroller = require("../controllers/authController");
+const authController = require("../controllers/authController");
 
-Router.use(authConroller.protect);
-Router.post("/manufacturer", manufacturerFormDispatch);
-Router.post("/warehouse", warehouseFormDispatch);
-Router.post("/medicalStore", medicalStoreDispatch);
+Router.use(authController.protect);
+
+Router.post(
+	"/manufacturer",
+	authController.roles("manufacturer"),
+	manufacturerFormDispatch
+);
+Router.post("/warehouse", authController.roles("warehouse"), warehouseFormDispatch);
+Router.post("/medicalStore", authController.roles("medicalStore"), medicalStoreDispatch);
 
 module.exports = Router;
