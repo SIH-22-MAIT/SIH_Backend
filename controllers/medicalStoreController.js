@@ -42,6 +42,7 @@ exports.dispatch = async (req, res) => {
 		});
 		order.medicalStoreFormID = medicalStoreFormID;
 		order.completed = true;
+		order.alert = alert;
 		const updatedOrder = await order.save();
 
 		res.status(201).json({

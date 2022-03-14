@@ -45,6 +45,7 @@ exports.dispatch = async (req, res) => {
 			alert
 		});
 		order.warehousesFormID.push(warehouseFormID);
+		order.alert = alert;
 		const updatedOrder = await order.save();
 
 		res.status(201).json({

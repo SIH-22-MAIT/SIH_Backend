@@ -14,6 +14,10 @@ const schema = mongoose.Schema({
 		default: null,
 		type: mongoose.SchemaTypes.ObjectId
 	},
+	alert: {
+		type: Boolean,
+		default: false
+	},
 	completed: {
 		type: Boolean,
 		default: false,
