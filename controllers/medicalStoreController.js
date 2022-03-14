@@ -44,13 +44,10 @@ exports.dispatch = async (req, res) => {
 		order.completed = true;
 		const updatedOrder = await order.save();
 
-		res.status(400).json({
-			status: "fail",
+		res.status(201).json({
+			status: "success",
 			data: {
-				status: "success",
-				data: {
-					updatedOrder
-				}
+				updatedOrder
 			}
 		});
 	} catch (err) {

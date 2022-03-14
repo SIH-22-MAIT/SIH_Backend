@@ -3,13 +3,13 @@ const Order = require("../models/Order");
 
 exports.dispatch = async (req, res) => {
 	try {
-		const manufacturerId = req.user;
+		const manufacturerID = req.user;
 		const { drugName, quantity, prescription } = req.body;
 		const manufacturerFormID = await ManufacturerForm.create({
 			drugName,
 			quantity,
 			prescription,
-			manufacturerId
+			manufacturerID
 		});
 
 		const order = await Order.create({ manufacturerFormID });
