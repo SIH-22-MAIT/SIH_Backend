@@ -12,8 +12,7 @@ const schema = mongoose.Schema({
 	},
 	medicalStoreFormID: {
 		default: null,
-		type: mongoose.SchemaTypes.ObjectId,
-		required: true
+		type: mongoose.SchemaTypes.ObjectId
 	},
 	completed: {
 		type: Boolean,

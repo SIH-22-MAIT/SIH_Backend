@@ -6,11 +6,11 @@ const schema = mongoose.Schema({
 		required: true
 	},
 	quantity: {
-		type: String,
+		type: Number,
 		required: true
 	},
 	inTime: {
-		type: Data,
+		type: Date,
 		required: true
 	},
 	outTime: {
@@ -31,12 +31,14 @@ const schema = mongoose.Schema({
 		required: true
 	},
 	alert: {
-		type: Boolean
+		type: Boolean,
+		default: false
 	},
 	AIalert: {
-		type: Boolean
+		type: Boolean,
+		default: false
 	}
 });
 
-const model = mongoose.model("Medical", schema);
+const model = mongoose.model("MedicalStore", schema);
 module.exports = model;

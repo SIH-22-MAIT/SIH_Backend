@@ -6,7 +6,7 @@ const schema = mongoose.Schema({
 		required: true
 	},
 	quantity: {
-		type: String,
+		type: Number,
 		required: true
 	},
 	inTime: {
@@ -19,10 +19,12 @@ const schema = mongoose.Schema({
 		required: true
 	},
 	alert: {
-		type: Boolean
+		type: Boolean,
+		default: false
 	},
 	AIalert: {
-		type: Boolean
+		type: Boolean,
+		default: false
 	}
 });
 
