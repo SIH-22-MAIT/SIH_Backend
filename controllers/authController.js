@@ -5,7 +5,7 @@ const Email = require("../utils/Email");
 // Create email verification link
 function EmailVerfication(id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "600s"
+    expiresIn: "600s",
   });
 }
 
@@ -37,13 +37,13 @@ exports.protect = async (req, res, next) => {
 };
 
 // Only for certain roles
-exports.roles = roles => {
+exports.roles = (roles) => {
   return async (req, res, next) => {
     const user = await User.findById(req.user);
     if (!roles.includes(user.role)) {
       return res.status(403).json({
         status: "fail",
-        msg: "You are not authorized to access this page"
+        msg: "You are not authorized to access this page",
       });
     }
     next();
@@ -77,14 +77,14 @@ exports.signup = async (req, res) => {
       password,
       confirmPassword,
       role,
-      uniqueID
+      uniqueID,
     });
     // Confirm Email Token
     const emailToken = EmailVerfication(user.id);
     // Confirm Email URL
     const url = `${req.protocol}://${req.get(
       "host"
-    )}/api/confirmEmail/${emailToken}`;
+    )}/api/auth/confirmEmail/${emailToken}`;
     await new Email(user, url).verifyEmail();
     res.status(201).json({ status: "success", data: { user } });
   } catch (err) {
@@ -103,20 +103,20 @@ exports.login = async (req, res) => {
     if (!user || !(await user.verifyPassword(password, user.password))) {
       res.status(400).json({
         status: "fail",
-        message: "Incorrect Username or Password"
+        message: "Incorrect Username or Password",
       });
       return;
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRESIN
+      expiresIn: process.env.JWT_EXPIRESIN,
     });
 
     const cookieOptions = {
       expires: new Date(
         Date.now() + process.env.COOKIE_EXPIRESIN * 24 * 60 * 60 * 1000
       ),
-      httpOnly: true
+      httpOnly: true,
     };
 
     res.cookie("jwt", token, cookieOptions);
@@ -125,8 +125,8 @@ exports.login = async (req, res) => {
       status: "success",
       data: {
         token,
-        user
-      }
+        user,
+      },
     });
   } catch (err) {
     res.status(400).json({ status: "fail", msg: err.message });
@@ -144,12 +144,12 @@ exports.confirmEmail = async (req, res) => {
     if (!user)
       return res.status(400).json({
         status: "fail",
-        msg: "User does not exist"
+        msg: "User does not exist",
       });
 
     res.status(200).json({
       status: "success",
-      msg: "Email Verified"
+      msg: "Email Verified",
     });
   } catch (err) {
     res.status(400).json({ status: "fail", msg: err.message });
