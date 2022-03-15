@@ -1,12 +1,13 @@
 const WarehouseForm = require("../models/WarehouseForm");
 const MedicalStoreForm = require("../models/MedicalStoreForm");
 const Order = require("../models/Order");
+const { cloudinaryLink } = require("../utils/Upload");
 
 exports.dispatch = async (req, res) => {
 	try {
 		const medicalStoreID = req.user;
 		let alert = false;
-		const { quantity, inTime, orderID, identity, IMC, prescription } = req.body;
+		const { quantity, inTime, orderID, identity, IMC } = req.body;
 
 		const order = await Order.findById(orderID);
 		if (!order) {
@@ -31,12 +32,14 @@ exports.dispatch = async (req, res) => {
 			alert = true;
 		}
 
+		// Get Cloudinary Link for Prescription
+		const presciptionImageLink = await cloudinaryLink(req.file.path);
 		const medicalStoreFormID = await MedicalStoreForm.create({
 			quantity,
 			inTime,
 			alert,
 			medicalStoreID,
-			prescription,
+			prescription: presciptionImageLink.url,
 			identity,
 			IMC
 		});

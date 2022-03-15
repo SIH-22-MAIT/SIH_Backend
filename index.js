@@ -3,10 +3,12 @@ const express = require("express");
 const connectDB = require("./config/db");
 const authRouter = require("./routers/authRouter");
 const formRouter = require("./routers/formRouter");
+const { cloudinaryConfig } = require("./utils/Upload");
 
 const app = express();
 app.use(express.json());
 connectDB();
+cloudinaryConfig();
 
 app.use("/api/auth", authRouter);
 app.use("/api/form", formRouter);
