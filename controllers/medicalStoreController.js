@@ -59,3 +59,21 @@ exports.dispatch = async (req, res) => {
 		});
 	}
 };
+
+exports.getMedicalStoreFormByID = async (req, res) => {
+	try {
+		const form = await MedicalStoreForm.findById(req.params.id);
+		res.status(200).json({
+			status: "success",
+			data: {
+				form
+			}
+		});
+	} catch (err) {
+		console.log(err.message);
+		res.status(400).json({
+			status: "fail",
+			msg: err.message
+		});
+	}
+};

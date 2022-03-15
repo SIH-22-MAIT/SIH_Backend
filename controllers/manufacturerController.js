@@ -27,3 +27,21 @@ exports.dispatch = async (req, res) => {
 		});
 	}
 };
+
+exports.getManufacturerFormByID = async (req, res) => {
+	try {
+		const form = await ManufacturerForm.findById(req.params.id);
+		res.status(200).json({
+			status: "success",
+			data: {
+				form
+			}
+		});
+	} catch (err) {
+		console.log(err.message);
+		res.status(400).json({
+			status: "fail",
+			msg: err.message
+		});
+	}
+};

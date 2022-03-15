@@ -62,3 +62,21 @@ exports.dispatch = async (req, res) => {
 		});
 	}
 };
+
+exports.getWarehouseFormByID = async (req, res) => {
+	try {
+		const form = await WarehouseForm.findById(req.params.id);
+		res.status(200).json({
+			status: "success",
+			data: {
+				form
+			}
+		});
+	} catch (err) {
+		console.log(err.message);
+		res.status(400).json({
+			status: "fail",
+			msg: err.message
+		});
+	}
+};
