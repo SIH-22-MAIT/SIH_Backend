@@ -1,11 +1,14 @@
 const express = require("express");
 const Router = express.Router();
 const {
-  signup,
-  login,
-  confirmEmail
+	protect,
+	getUserFromToken,
+	signup,
+	login,
+	confirmEmail
 } = require("../controllers/authController");
 
+router.get("/", protect, getUserFromToken);
 Router.post("/signup", signup);
 Router.post("/login", login);
 Router.get("/confirmEmail/:token", confirmEmail);

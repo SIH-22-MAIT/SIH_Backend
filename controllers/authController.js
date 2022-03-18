@@ -27,7 +27,7 @@ exports.protect = async (req, res, next) => {
 		next();
 	} catch (err) {
 		console.log(err.message);
-		res.status(401).json({ msg: err.message });
+		res.status(401).json({ status: "fail", msg: err.message });
 	}
 };
 
@@ -82,7 +82,7 @@ exports.signup = async (req, res) => {
 		res.status(201).json({ status: "success", data: { user } });
 	} catch (err) {
 		console.log(err.message);
-		res.status(400).json({ status: "error", msg: err.message });
+		res.status(400).json({ status: "fail", msg: err.message });
 	}
 };
 
