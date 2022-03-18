@@ -8,7 +8,7 @@ const {
 	confirmEmail
 } = require("../controllers/authController");
 
-router.get("/", protect, getUserFromToken);
+Router.get("/", protect, getUserFromToken);
 Router.post("/signup", signup);
 Router.post("/login", login);
 Router.get("/confirmEmail/:token", confirmEmail);
