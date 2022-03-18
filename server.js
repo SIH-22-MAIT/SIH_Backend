@@ -1,5 +1,6 @@
 require("dotenv").config({ path: "./config/config.env" });
 const express = require("express");
+const cors = require("cors");
 const connectDB = require("./config/db");
 const authRouter = require("./routers/authRouter");
 const formRouter = require("./routers/formRouter");
@@ -10,6 +11,7 @@ app.use(express.json());
 connectDB();
 cloudinaryConfig();
 
+app.use(cors());
 app.use("/api/auth", authRouter);
 app.use("/api/form", formRouter);
 

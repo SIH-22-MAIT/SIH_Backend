@@ -15,7 +15,6 @@ exports.protect = async (req, res, next) => {
 	// Get token
 	if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
 		token = req.headers.authorization.split(" ")[1];
-	else if (req.cookies.jwt) token = req.cookies.jwt;
 
 	if (!token) {
 		return res.status(401).json({ status: "fail", msg: "Authorization denied" });
@@ -72,13 +71,13 @@ exports.signup = async (req, res) => {
 			role,
 			uniqueID
 		});
-		// // Confirm Email Token
-		// const emailToken = EmailVerfication(user.id);
-		// // Confirm Email URL
-		// const url = `${req.protocol}://${req.get(
-		// 	"host"
-		// )}/api/auth/confirmEmail/${emailToken}`;
-		// await new Email(user, url).verifyEmail();
+		// Confirm Email Token
+		const emailToken = EmailVerfication(user.id);
+		// Confirm Email URL
+		// const base_url = 'http://locahost:3000';
+		const base_url = "https://ncbdaas.me";
+		const url = `${base_url}/verify/${emailToken}`;
+		await new Email(user, url).verifyEmail();
 		res.status(201).json({ status: "success", data: { user } });
 	} catch (err) {
 		console.log(err.message);
@@ -100,12 +99,12 @@ exports.login = async (req, res) => {
 			});
 		}
 
-		// if (!user.confirm) {
-		// 	return res.status(400).json({
-		// 		status: "fail",
-		// 		msg: "Please verify your email first"
-		// 	});
-		// }
+		if (!user.confirm) {
+			return res.status(400).json({
+				status: "fail",
+				msg: "Please verify your email first"
+			});
+		}
 
 		const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
 			expiresIn: process.env.JWT_EXPIRESIN
