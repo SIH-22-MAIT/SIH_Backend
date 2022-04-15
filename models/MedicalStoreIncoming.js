@@ -13,20 +13,10 @@ const schema = mongoose.Schema({
 		type: Date,
 		required: true
 	},
-	outTime: {
-		type: Date,
-		default: Date.now(),
-		required: true
-	},
-	identity: {
-		type: String,
-		required: true
+	exhaustTime: {
+		type: Date
 	},
 	IMC: {
-		type: String,
-		required: true
-	},
-	prescription: {
 		type: String,
 		required: true
 	},
@@ -40,5 +30,5 @@ const schema = mongoose.Schema({
 	}
 });
 
-const model = mongoose.model("MedicalStore", schema);
+const model = mongoose.model("MedicalStoreIncoming", schema);
 module.exports = model;

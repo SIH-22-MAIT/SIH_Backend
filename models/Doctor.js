@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-	manufacturerID: {
+	doctorID: {
 		type: mongoose.SchemaTypes.ObjectId,
 		required: true
 	},
-	drugName: {
+	patientID: {
 		type: String,
 		required: true
 	},
@@ -13,16 +13,19 @@ const schema = mongoose.Schema({
 		type: Number,
 		required: true
 	},
-	outTime: {
-		type: Date,
-		default: Date.now(),
+	dosage: {
+		type: Number,
+		required: true
+	},
+	duration: {
+		type: Number,
+		required: true
+	},
+	drugName: {
+		type: Number,
 		required: true
 	}
-	// prescription: {
-	// 	type: Boolean,
-	// 	required: true
-	// }
 });
 
-const model = mongoose.model("Manufacturer", schema);
+const model = mongoose.model("Doctor", schema);
 module.exports = model;
